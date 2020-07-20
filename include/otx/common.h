@@ -3,10 +3,12 @@
 #ifndef OTX_COMMON_H
 #define OTX_COMMON_H
 
-#define OTX_SUCCESS 0
-#define OTX_NOT_FOUND 1
-#define OTX_INCORRECT_FORMAT 2
-#define OTX_INTERNAL_ERROR 3
+typedef enum  {
+    OTX_SUCCESS = 0,
+    OTX_NOT_FOUND,
+    OTX_INCORRECT_FORMAT,
+    OTX_INTERNAL_ERROR
+} OTX_code;
 
 #define DEFINE_ALL(MACRO_NAME)              \
     MACRO_NAME(int8,   int8_t,   SCNd8)     \

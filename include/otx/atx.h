@@ -10,13 +10,11 @@
 
 #include "common.h"
 
-static int
+static OTX_code
 arg_to_str(int argc, char *argv[], char *arg_name, char **arg_val) {
-    int i;
-
     assert(argc % 2 == 1);
 
-    for (i = 1; i < argc; i += 2) {
+    for (int i = 1; i < argc; i += 2) {
         if (strcmp(arg_name, argv[i]) == 0) {
             *arg_val = argv[i + 1];
             return OTX_SUCCESS;
@@ -26,10 +24,10 @@ arg_to_str(int argc, char *argv[], char *arg_name, char **arg_val) {
     return OTX_NOT_FOUND;
 }
 
-static int
+static OTX_code
 arg_to_str_def(int argc, char *argv[], char *arg_name, char **arg_val,
                char *default_val) {
-    int ret_code;
+    OTX_code ret_code;
 
     ret_code = arg_to_str(argc, argv, arg_name, arg_val);
     if (ret_code == OTX_SUCCESS) {
@@ -45,9 +43,9 @@ arg_to_str_def(int argc, char *argv[], char *arg_name, char **arg_val,
 }
 
 #define DEFINE_ATX(FN_NAME, TYPE, SCN)                                         \
-static int                                                                     \
+static OTX_code                                                                \
 arg_to_##FN_NAME(int argc, char *argv[], char *arg_name, TYPE *arg_val) {      \
-    int ret_code;                                                              \
+    OTX_code ret_code;                                                         \
     char *arg_val_str;                                                         \
                                                                                \
     ret_code = arg_to_str(argc, argv, arg_name, &arg_val_str);                 \
@@ -74,10 +72,10 @@ DEFINE_ALL(DEFINE_ATX)
 
 
 #define DEFINE_ATX_DEF(FN_NAME, TYPE, SCN)                                     \
-static int                                                                     \
+static OTX_code                                                                \
 arg_to_##FN_NAME##_def(int argc, char *argv[], char *arg_name, TYPE *arg_val,  \
                TYPE default_val) {                                             \
-    int ret_code;                                                              \
+    OTX_code ret_code;                                                         \
                                                                                \
     ret_code = arg_to_##FN_NAME(argc, argv, arg_name, arg_val);                \
     if (ret_code == OTX_SUCCESS) {                                             \

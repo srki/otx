@@ -26,19 +26,37 @@ arg_to_str(int argc, char *argv[], char *arg_name, char **arg_val) {
     return OTX_NOT_FOUND;
 }
 
+static int
+arg_to_str_def(int argc, char *argv[], char *arg_name, char **arg_val,
+               char *default_val) {
+    int ret_code;
+
+    ret_code = arg_to_str(argc, argv, arg_name, arg_val);
+    if (ret_code == OTX_SUCCESS) {
+        return OTX_SUCCESS;
+    }
+
+    if (ret_code == OTX_NOT_FOUND) {
+        *arg_val = default_val;
+        return OTX_SUCCESS;
+    }
+
+    return OTX_INTERNAL_ERROR;
+}
+
 #define DEFINE_ATX(FN_NAME, TYPE, SCN)                                         \
 static int                                                                     \
 arg_to_##FN_NAME(int argc, char *argv[], char *arg_name, TYPE *arg_val) {      \
-    int ret_val;                                                               \
+    int ret_code;                                                              \
     char *arg_val_str;                                                         \
                                                                                \
-    ret_val = arg_to_str(argc, argv, arg_name, &arg_val_str);                  \
-    if (ret_val != OTX_SUCCESS) {                                              \
-        return ret_val;                                                        \
+    ret_code = arg_to_str(argc, argv, arg_name, &arg_val_str);                 \
+    if (ret_code != OTX_SUCCESS) {                                             \
+        return ret_code;                                                       \
     }                                                                          \
                                                                                \
-    ret_val = sscanf(arg_val_str, "%" SCN, arg_val);                           \
-    if (ret_val != 1) {                                                        \
+    ret_code = sscanf(arg_val_str, "%" SCN, arg_val);                          \
+    if (ret_code != 1) {                                                       \
         return OTX_INCORRECT_FORMAT;                                           \
     }                                                                          \
                                                                                \
@@ -47,9 +65,35 @@ arg_to_##FN_NAME(int argc, char *argv[], char *arg_name, TYPE *arg_val) {      \
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "cert-err34-c"
+
 DEFINE_ALL(DEFINE_ATX)
+
 #pragma clang diagnostic pop
 
 #undef DEFINE_ATX
+
+
+#define DEFINE_ATX_DEF(FN_NAME, TYPE, SCN)                                     \
+static int                                                                     \
+arg_to_##FN_NAME##_def(int argc, char *argv[], char *arg_name, TYPE *arg_val,  \
+               TYPE default_val) {                                             \
+    int ret_code;                                                              \
+                                                                               \
+    ret_code = arg_to_##FN_NAME(argc, argv, arg_name, arg_val);                \
+    if (ret_code == OTX_SUCCESS) {                                             \
+        return OTX_SUCCESS;                                                    \
+    }                                                                          \
+                                                                               \
+    if (ret_code == OTX_NOT_FOUND) {                                           \
+        *arg_val = default_val;                                                \
+        return OTX_SUCCESS;                                                    \
+    }                                                                          \
+                                                                               \
+    return OTX_INTERNAL_ERROR;                                                 \
+}
+
+DEFINE_ALL(DEFINE_ATX_DEF)
+
+#undef DEFINE_ATX_DEF
 
 #endif //OTX_ATX_H

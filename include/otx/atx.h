@@ -12,14 +12,24 @@
 
 static OTX_code
 arg_to_str(int argc, char *argv[], char *arg_name, char **arg_val) {
+    char *name_begin;
+    char *name_end;
+    size_t len;
     assert(argc % 2 == 1);
 
-    for (int i = 1; i < argc; i += 2) {
-        if (strcmp(arg_name, argv[i]) == 0) {
-            *arg_val = argv[i + 1];
-            return OTX_SUCCESS;
+    name_begin = arg_name;
+    do {
+        name_end = strstr(name_begin, "|");
+        len = name_end == NULL ? strlen(arg_name) : name_end - name_begin;
+
+        for (int i = 1; i < argc; i += 2) {
+            if (strncmp(name_begin, argv[i], len) == 0) {
+                *arg_val = argv[i + 1];
+                return OTX_SUCCESS;
+            }
         }
-    }
+        name_begin = name_end + 1;
+    } while (name_end != NULL);
 
     return OTX_NOT_FOUND;
 }

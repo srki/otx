@@ -24,7 +24,7 @@ namespace otx {
 /* region Private API */
 namespace otx {
     namespace detail {
-        std::string findArg(int argc, const char *argv[], const std::initializer_list<const std::string> &argNames) {
+        std::string findArg(int argc, const char * const argv[], const std::initializer_list<const std::string> &argNames) {
             assert(argc % 2 == 1);
             for (int i = 1; i < argc; i++) {
                 std::string arg{argv[i]};
@@ -46,7 +46,7 @@ namespace otx {
 
     template<class T>
     inline T
-    argTo(int argc, const char *argv[], const std::initializer_list<const std::string> &names) {
+    argTo(int argc, const char * const argv[], const std::initializer_list<const std::string> &names) {
         auto argStr = detail::findArg(argc, argv, names);
         std::stringstream ss{argStr};
 
@@ -60,13 +60,13 @@ namespace otx {
 
     template<class T>
     inline T
-    argTo(int argc, const char *argv[], const std::string &name) {
+    argTo(int argc, const char * const argv[], const std::string &name) {
         return argTo<T>(argc, argv, {name});
     }
 
     template<class T>
     inline T
-    argTo(int argc, const char *argv[], const std::initializer_list<const std::string> &names, const T &defaultValue) {
+    argTo(int argc, const char * const argv[], const std::initializer_list<const std::string> &names, const T &defaultValue) {
         try {
             auto argValue = argTo<T>(argc, argv, names);
             return argValue;
@@ -77,7 +77,7 @@ namespace otx {
 
     template<class T>
     inline T
-    argTo(int argc, const char *argv[], const std::string &name, const T &defaultValue) {
+    argTo(int argc, const char * const argv[], const std::string &name, const T &defaultValue) {
         return argTo<T>(argc, argv, {name}, defaultValue);
     }
 

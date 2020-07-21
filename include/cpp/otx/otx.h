@@ -26,7 +26,7 @@ namespace otx {
     namespace detail {
         std::string findArg(int argc, const char * const argv[], const std::initializer_list<const std::string> &argNames) {
             assert(argc % 2 == 1);
-            for (int i = 1; i < argc; i++) {
+            for (int i = 1; i < argc; i += 2) {
                 std::string arg{argv[i]};
                 for (auto &argName : argNames) {
                     if (argName == arg) {

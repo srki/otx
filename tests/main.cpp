@@ -67,6 +67,30 @@ int main() {
     std::cout << std::endl;
 
     {
+        const char *args[] = {"", "test", "7.15"};
+        auto val = otx::argTo<float>(3, args, {"test"}, 3.14);
+        std::cout << val << std::endl;
+    }
+
+    {
+        const char *args[] = {"", "test", "7.15"};
+        auto val = otx::argTo<float>(3, args, {"testx"}, 3.14);
+        std::cout << val << std::endl;
+    }
+
+    {
+        const char *args[] = {"", "test", "7.15"};
+        auto val = otx::argTo<float>(3, args, {"testx", "test"}, 3.14);
+        std::cout << val << std::endl;
+    }
+
+    {
+        const char *args[] = {"", "test", "7.15"};
+        auto val = otx::argTo<float>(3, args, {"test", "testx"}, 3.14);
+        std::cout << val << std::endl;
+    }
+
+    {
         const char *args[] = {"", "test", "3foo"};
         auto val = otx::argTo<std::string>(3, args, {"test", "testx"});
         std::cout << val << std::endl;

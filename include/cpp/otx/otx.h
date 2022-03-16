@@ -4,6 +4,7 @@
 #define OTX_OTX_H
 
 #include <string>
+#include <ostream>
 #include <sstream>
 #include <exception>
 #include <initializer_list>
@@ -43,6 +44,13 @@ namespace otx {
 
 /* region public API */
 namespace otx {
+
+    void printArgs(int argc, const char * const argv[], std::ostream &os, const std::string &suffix = "\n") {
+        for (int i = 0; i < argc; ++i) {
+            os << argv[i] << " ";
+        }
+        std::cout << suffix;
+    }
 
     template<class T>
     inline T

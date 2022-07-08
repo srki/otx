@@ -3,6 +3,7 @@
 #ifndef OTX_OTX_H
 #define OTX_OTX_H
 
+#include <iostream>
 #include <string>
 #include <ostream>
 #include <sstream>

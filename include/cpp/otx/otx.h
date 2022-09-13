@@ -15,7 +15,27 @@
 namespace otx {
     class OtxException : public std::exception {};
 
-    class NotFound : public OtxException {};
+    class NotFound : public OtxException {
+    public:
+        NotFound() = default;
+
+        NotFound(const std::initializer_list<const std::string> &argNames) {
+            _message = "Cannot find argument: ";
+            for (auto it = argNames.begin(); it != argNames.end(); ++it) {
+                if (it != argNames.begin()) {
+                    _message += " | ";
+                }
+               _message += *it;
+            }
+        }
+
+        [[nodiscard]] const char *what() const noexcept override {
+            return _message.empty() ? exception::what() : _message.c_str();
+        }
+
+    protected:
+        std::string _message{};
+    };
 
     class IncorrectFormat : public OtxException {};
 
@@ -37,7 +57,7 @@ namespace otx {
                 }
             }
 
-            throw NotFound{};
+            throw NotFound{argNames};
         }
     }
 }

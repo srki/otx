@@ -125,8 +125,10 @@ int main(int argc, char *argv[]) {
             const char *args[] = {"", "test", "3x"};
             auto val = otx::argTo<int16_t>(3, args, {"test", "testx"});
             std::cout << val << std::endl;
-        } catch (const otx::IncorrectFormat &) {
+        } catch (const otx::IncorrectFormat &e) {
             std::cout << "IncorrectFormat" << std::endl;
+            std::cout << e.what() << std::endl;
+
         }
 
     }
@@ -136,9 +138,20 @@ int main(int argc, char *argv[]) {
             const char *args[] = {"", "test", "x3"};
             auto val = otx::argTo<int16_t>(3, args, {"test", "testx"});
             std::cout << val << std::endl;
-        } catch (const otx::IncorrectFormat &) {
+        } catch (const otx::IncorrectFormat &e) {
             std::cout << "IncorrectFormat" << std::endl;
+            std::cout << e.what() << std::endl;
         }
+    }
+
+
+    try {
+        const char *args[] = {"", "test", "7.15"};
+        auto val = otx::argTo<float>(3, args, {"testx", "testz"});
+        std::cout << val << std::endl;
+    } catch (const otx::NotFound &e) {
+        std::cout << "NotFound" << std::endl;
+        std::cout << e.what() << std::endl;
     }
 
 }

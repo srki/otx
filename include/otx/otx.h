@@ -115,14 +115,14 @@ inline T argTo(int argc, const char *const argv[], const std::string &name, cons
 
 // Initialized
 
-void init(int argc, const char *argv[]);
+void init(int argc, const char *const argv[]);
 
-void init(int argc, const char *argv[], std::ostream &os, const std::string &suffix = "\n") {
+void init(int argc, const char *const argv[], std::ostream &os, const std::string &suffix = "\n") {
     init(argc, argv);
     printArgs(argc, argv, os, suffix);
 }
 
-[[nodiscard]] std::pair<int, const char **> getArgs();
+[[nodiscard]] std::pair<int, const char *const *> getArgs();
 
 void printArgs(std::ostream &os, const std::string &suffix = "\n") {
     auto [argc, argv] = getArgs();

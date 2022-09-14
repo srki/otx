@@ -158,7 +158,7 @@ int main(int argc, char *argv[]) {
 
     {
         const char *args[] = {"", "test", "3foo"};
-
+        otx::init(argc, argv);
         otx::printArgs(3, args, std::cout);
         otx::init(3, args);
         otx::init(3, args, std::cout);

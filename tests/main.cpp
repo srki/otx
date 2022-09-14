@@ -154,5 +154,41 @@ int main(int argc, char *argv[]) {
         std::cout << e.what() << std::endl;
     }
 
+    std::cout << "----- Initialized API -----" << std::endl;
+
+    {
+        const char *args[] = {"", "test", "3foo"};
+
+        otx::printArgs(3, args, std::cout);
+        otx::init(3, args);
+        otx::init(3, args, std::cout);
+        otx::printArgs(std::cout);
+    }
+
+    {
+        const char *args[] = {"", "test", "3foo"};
+        otx::printArgs(3, args, std::cout);
+    }
+
+    std::cout << std::endl;
+
+    {
+        const char *args[] = {"", "test", "3foo"};
+        auto val = otx::argTo<std::string>(3, args, "test");
+        std::cout << val << std::endl;
+    }
+
+    {
+        const char *args[] = {"", "test", "3"};
+        auto val = otx::argTo<int16_t>(3, args, "test");
+        std::cout << val << std::endl;
+    }
+
+    {
+        const char *args[] = {"", "test", "7.15"};
+        auto val = otx::argTo<float>(3, args, "test");
+        std::cout << val << std::endl;
+    }
+
 }
 

@@ -5,7 +5,7 @@ project(otx
         DESCRIPTION "A Simple Header Library for Parsing Program Options."
         LANGUAGES CXX)
 
-add_library(otx INTERFACE)
-target_include_directories(otx INTERFACE include)
+add_library(otx SHARED src/otx.cpp)
+target_include_directories(otx PUBLIC include)
 
 add_subdirectory(tests)

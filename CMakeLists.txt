@@ -7,5 +7,6 @@ project(otx
 
 add_library(otx SHARED src/otx.cpp)
 target_include_directories(otx PUBLIC include)
+target_compile_features(otx PUBLIC cxx_std_17)
 
 add_subdirectory(tests)
